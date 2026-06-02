@@ -47,7 +47,10 @@ export class EventRepository extends Repository {
   }
 
   public async create(record: EventCreateDTO): Promise<Event> {
-    const { status, data } = await this.http.post<Event, EventCreateDTO>('/', record);
+    const { status, data } = await this.http.post<Event, EventCreateDTO>(
+      '/',
+      record,
+    );
 
     if (this.isOK(status)) return new Event(data);
 
@@ -55,7 +58,10 @@ export class EventRepository extends Repository {
   }
 
   public async update(id: number, record: EventUpdateDTO): Promise<Event> {
-    const { status, data } = await this.http.put<Event, EventUpdateDTO>(`/${id}`, record);
+    const { status, data } = await this.http.put<Event, EventUpdateDTO>(
+      `/${id}`,
+      record,
+    );
 
     if (this.isOK(status)) return new Event(data);
 
@@ -63,7 +69,9 @@ export class EventRepository extends Repository {
   }
 
   public async toggleStatus(id: number): Promise<Event> {
-    const { status, data } = await this.http.patch<Event, undefined>(`/${id}/toggle-status`);
+    const { status, data } = await this.http.patch<Event, undefined>(
+      `/${id}/toggle-status`,
+    );
 
     if (this.isOK(status)) return new Event(data);
 
@@ -78,7 +86,9 @@ export class EventRepository extends Repository {
     throw new Error('Ops, algo inesperado aconteceu!');
   }
 
-  public async listPublic(dto?: EventPublicListDTO): Promise<Pagination<Event>> {
+  public async listPublic(
+    dto?: EventPublicListDTO,
+  ): Promise<Pagination<Event>> {
     const { status, data } = await this.http.get<Pagination<Event>>('/public', {
       params: { ...dto },
     });
@@ -94,11 +104,20 @@ export class EventRepository extends Repository {
     throw new Error('Ops, algo inesperado aconteceu!');
   }
 
-  public async getPublic(slug: string): Promise<Event> {
-    const { status, data } = await this.http.get<Event>(`/public/${slug}`);
+  public async getPublic(slug: string): Promise<Event | null> {
+    try {
+      const { status, data } = await this.http.get<Event>(`/public/${slug}`);
 
-    if (this.isOK(status)) return new Event(data);
+      if (this.isOK(status)) return new Event(data);
 
-    throw new Error('Ops, algo inesperado aconteceu!');
+      if (status === 404) return null;
+
+      throw new Error('Ops, algo inesperado aconteceu!');
+    } catch (err: any) {
+      // Axios lança erro para 4xx/5xx — tratamos 404 como "não encontrado"
+      if (err?.response?.status === 404) return null;
+
+      throw err;
+    }
   }
 }

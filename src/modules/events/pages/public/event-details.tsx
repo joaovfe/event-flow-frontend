@@ -84,7 +84,12 @@ function TicketTypeRow({
                 {max} disponíveis
               </Typography>
             ) : (
-              <Chip size="small" label="Esgotado" color="default" sx={{ mt: 0.5 }} />
+              <Chip
+                size="small"
+                label="Esgotado"
+                color="default"
+                sx={{ mt: 0.5 }}
+              />
             )}
           </Box>
 
@@ -127,10 +132,11 @@ export function EventDetails() {
 
   const repository = new EventRepository();
 
-  const { data: event, isLoading } = useQuery({
+  const { data: event, isLoading } = useQuery<Event | null>({
     queryKey: ['event', 'public', slug],
     queryFn: () => repository.getPublic(slug!),
     enabled: !!slug,
+    retry: false,
   });
 
   if (isLoading) {
@@ -149,7 +155,11 @@ export function EventDetails() {
         <Typography variant="h6" color="text.secondary" gutterBottom>
           Evento não encontrado.
         </Typography>
-        <Button variant="outlined" color="success" onClick={() => navigate(EPublicPath.HOME)}>
+        <Button
+          variant="outlined"
+          color="success"
+          onClick={() => navigate(EPublicPath.HOME)}
+        >
           Voltar para a home
         </Button>
       </Container>
@@ -163,7 +173,13 @@ export function EventDetails() {
           component="img"
           src={event.image}
           alt={event.title}
-          sx={{ width: '100%', maxHeight: 380, objectFit: 'cover', borderRadius: 2, mb: 3 }}
+          sx={{
+            width: '100%',
+            maxHeight: 380,
+            objectFit: 'cover',
+            borderRadius: 2,
+            mb: 3,
+          }}
         />
       ) : (
         <Box
@@ -184,13 +200,24 @@ export function EventDetails() {
           </Typography>
 
           <Stack spacing={1} mb={2}>
-            <Stack direction="row" spacing={1} alignItems="center" color="text.secondary">
+            <Stack
+              direction="row"
+              spacing={1}
+              alignItems="center"
+              color="text.secondary"
+            >
               <CalendarMonth fontSize="small" />
               <Typography variant="body1">
-                {formatDate(event.startDate, true)} — {formatDate(event.endDate, true)}
+                {formatDate(event.startDate, true)} —{' '}
+                {formatDate(event.endDate, true)}
               </Typography>
             </Stack>
-            <Stack direction="row" spacing={1} alignItems="center" color="text.secondary">
+            <Stack
+              direction="row"
+              spacing={1}
+              alignItems="center"
+              color="text.secondary"
+            >
               <LocationOnOutlined fontSize="small" />
               <Typography variant="body1">{event.location}</Typography>
             </Stack>
@@ -198,7 +225,11 @@ export function EventDetails() {
 
           <Divider sx={{ my: 2 }} />
 
-          <Typography variant="body1" color="text.secondary" sx={{ whiteSpace: 'pre-line' }}>
+          <Typography
+            variant="body1"
+            color="text.secondary"
+            sx={{ whiteSpace: 'pre-line' }}
+          >
             {event.description}
           </Typography>
         </Grid>
