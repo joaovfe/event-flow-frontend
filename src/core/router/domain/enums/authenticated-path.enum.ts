@@ -1,0 +1,15 @@
+export enum EAuthenticatedPath {
+  DASHBOARD = '/dashboard',
+  USERS = '/usuarios',
+  CREATE_USER = '/usuarios/novo',
+  EDIT_USER = '/usuarios/:id',
+  ROLES = '/perfis-de-usuario',
+  CREATE_ROLE = '/perfis-de-usuario/novo',
+  EDIT_ROLE = '/perfis-de-usuario/:id',
+  EVENTS = '/eventos',
+  CREATE_EVENT = '/eventos/novo',
+  EDIT_EVENT = '/eventos/:id',
+  ORDERS = '/pedidos',
+  ORDER_DETAILS = '/pedidos/:id',
+  CHECKIN = '/check-in',
+}

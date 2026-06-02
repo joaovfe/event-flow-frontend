@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  app:
+    image: node:20.11.0
+    container_name: event-flow-frontend
+    user: 'root'
+    restart: 'no'
+    working_dir: /app
+    network_mode: host
+    volumes:
+      - ./:/app
+    command: bash -c "npm install; npm run dev --host"
