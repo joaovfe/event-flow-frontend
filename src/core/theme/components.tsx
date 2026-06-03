@@ -187,4 +187,13 @@ export const components: Components<Omit<Theme, 'components'>> = {
       }),
     },
   },
-};
+
+    MuiChip: {
+      styleOverrides: {
+        colorSuccess: {
+          backgroundColor: '#2e7d32',
+          color: '#fff',
+        },
+      },
+    },
+  };
