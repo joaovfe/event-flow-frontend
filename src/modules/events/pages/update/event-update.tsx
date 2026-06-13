@@ -7,7 +7,7 @@ import { Divider } from '@mui/material';
 
 import { EAuthenticatedPath } from '@/core/router';
 
-import { LoadingButton, Page, PageButtons, PageCard, PageHeader, PageTitle } from '@/shared/components';
+import { Loading as LoadingSpinner, LoadingButton, Page, PageButtons, PageCard, PageHeader, PageTitle } from '@/shared/components';
 import { callbackOnInvalidZod, formatErrorForNotification } from '@/shared/utils';
 import { Loading } from '@/shared/domain';
 
@@ -103,14 +103,20 @@ export function EventUpdate() {
       </PageHeader>
 
       <PageCard>
-        <FormProvider {...methods}>
-          <EventForm disabled={loading === 'PUT' || loading === 'GET'} />
-        </FormProvider>
+        {loading === 'GET' && <LoadingSpinner />}
 
-        {!!eventId && (
+        {loading !== 'GET' && (
           <>
-            <Divider flexItem />
-            <TicketTypesSection eventId={eventId} />
+            <FormProvider {...methods}>
+              <EventForm disabled={loading === 'PUT'} />
+            </FormProvider>
+
+            {!!eventId && (
+              <>
+                <Divider flexItem />
+                <TicketTypesSection eventId={eventId} />
+              </>
+            )}
           </>
         )}
       </PageCard>

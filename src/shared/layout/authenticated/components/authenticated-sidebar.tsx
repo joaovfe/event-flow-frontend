@@ -116,7 +116,10 @@ export function AuthenticatedSidebar({ children }: PropsWithChildren) {
           >
             <Box className="custom-sidebar-logo">
               <a href={EPublicPath.HOME} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <Logo maxWidth="124px" />
+                <Logo
+                  maxWidth={open || isMobile ? '124px' : '40px'}
+                  compact={!isMobile && !open}
+                />
               </a>
             </Box>
           </Stack>

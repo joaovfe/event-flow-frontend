@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Card, CardContent, Grid2 as Grid, Stack, Typography } from '@mui/material';
+import { Card, CardContent, Grid2 as Grid, Skeleton, Stack, Typography } from '@mui/material';
 import {
   ConfirmationNumberOutlined,
   EventOutlined,
@@ -54,15 +54,17 @@ export function Dashboard() {
   const eventRepository = new EventRepository();
   const orderRepository = new OrderRepository();
 
-  const { data: events } = useQuery({
+  const { data: events, isLoading: isLoadingEvents } = useQuery({
     queryKey: ['dashboard', 'events'],
     queryFn: () => eventRepository.list({ pagination: { take: 1, skip: 0 } }),
   });
 
-  const { data: orders } = useQuery({
+  const { data: orders, isLoading: isLoadingOrders } = useQuery({
     queryKey: ['dashboard', 'orders'],
     queryFn: () => orderRepository.list({ pagination: { take: 100, skip: 0 } }),
   });
+
+  const isLoading = isLoadingEvents || isLoadingOrders;
 
   const totalEvents = events?.total ?? 0;
   const totalOrders = orders?.total ?? 0;
@@ -80,17 +82,29 @@ export function Dashboard() {
       <PageCard>
         <Grid container width="100%" spacing={2}>
           <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-            <StatCard label="Eventos" value={totalEvents} icon={<EventOutlined />} />
+            {isLoading ? (
+              <Skeleton variant="rounded" height={100} />
+            ) : (
+              <StatCard label="Eventos" value={totalEvents} icon={<EventOutlined />} />
+            )}
           </Grid>
           <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-            <StatCard label="Pedidos" value={totalOrders} icon={<ReceiptLongOutlined />} />
+            {isLoading ? (
+              <Skeleton variant="rounded" height={100} />
+            ) : (
+              <StatCard label="Pedidos" value={totalOrders} icon={<ReceiptLongOutlined />} />
+            )}
           </Grid>
           <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-            <StatCard
-              label="Ingressos vendidos"
-              value={totalTickets}
-              icon={<ConfirmationNumberOutlined />}
-            />
+            {isLoading ? (
+              <Skeleton variant="rounded" height={100} />
+            ) : (
+              <StatCard
+                label="Ingressos vendidos"
+                value={totalTickets}
+                icon={<ConfirmationNumberOutlined />}
+              />
+            )}
           </Grid>
         </Grid>
       </PageCard>

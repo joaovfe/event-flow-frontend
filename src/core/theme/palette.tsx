@@ -53,7 +53,7 @@ export const palette: Record<PaletteMode, PaletteOptions> = {
   dark: {
     mode: 'dark',
     primary: {
-      main: '#272A2F',
+      main: '#2A2140',
       light: '#e3f2fd',
       dark: '#42a5f5',
       contrastText: 'rgba(255, 255, 255, 0.87)',
@@ -84,9 +84,9 @@ export const palette: Record<PaletteMode, PaletteOptions> = {
     },
     success: {
       main: '#FFDE59',
-      light: '#81c784',
-      dark: '#c9ac38',
-      contrastText: '#fff',
+      light: '#FFEB99',
+      dark: '#F2C94C',
+      contrastText: '#3A1078',
     },
     text: {
       primary: '#fff',
@@ -94,8 +94,8 @@ export const palette: Record<PaletteMode, PaletteOptions> = {
       disabled: 'rgba(255, 255, 255, 0.5)',
     },
     background: {
-      paper: '#212326',
-      default: '#212326',
+      paper: '#1E1A26',
+      default: '#1E1A26',
     },
     divider: 'rgba(255, 255, 255, 0.12)',
   },

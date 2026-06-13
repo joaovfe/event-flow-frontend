@@ -40,6 +40,14 @@ export const components: Components<Omit<Theme, 'components'>> = {
       root: {
         textTransform: 'none',
         fontWeight: 600,
+        borderRadius: 8,
+        transition: 'transform 0.15s ease, box-shadow 0.15s ease',
+      },
+      contained: {
+        '&:hover': {
+          transform: 'translateY(-1px)',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)',
+        },
       },
     },
   },
