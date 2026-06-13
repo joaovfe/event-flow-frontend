@@ -35,7 +35,7 @@ export function EventsListTable() {
   });
 
   function handleEdit(id: number) {
-    navigate(`${EAuthenticatedPath.EVENTS}/${id}`);
+    navigate(`${EAuthenticatedPath.EVENTS}/${id}/editar`);
   }
 
   async function toggleStatus(id: number) {

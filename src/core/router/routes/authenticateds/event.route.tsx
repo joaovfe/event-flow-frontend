@@ -31,7 +31,7 @@ export const EVENT_ROUTE: IRoute = {
     {
       name: 'Editar Evento',
       hidden: true,
-      path: ':id',
+      path: ':id/editar',
       element: (
         <RequiredAbility reference="EVENTS" action="canUpdate">
           <EventUpdate />

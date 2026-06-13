@@ -8,7 +8,7 @@ export enum EAuthenticatedPath {
   EDIT_ROLE = '/perfis-de-usuario/:id',
   EVENTS = '/eventos',
   CREATE_EVENT = '/eventos/novo',
-  EDIT_EVENT = '/eventos/:id',
+  EDIT_EVENT = '/eventos/:id/editar',
   ORDERS = '/pedidos',
   ORDER_DETAILS = '/pedidos/:id',
   CHECKIN = '/check-in',
