@@ -21,11 +21,11 @@ export class TicketTypeRepository extends Repository {
   }
 
   public async list(dto?: TicketTypeListDTO): Promise<TicketType[]> {
-    const { status, data } = await this.http.get<TicketType[]>('/', {
+    const { status, data } = await this.http.get<{ data: TicketType[]; total: number; pages: number }>('/', {
       params: { ...dto },
     });
 
-    if (this.isOK(status)) return (data ?? []).map((t) => new TicketType(t));
+    if (this.isOK(status)) return (data.data ?? []).map((t) => new TicketType(t));
 
     throw new Error('Ops, algo inesperado aconteceu!');
   }

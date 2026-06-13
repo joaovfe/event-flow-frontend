@@ -21,10 +21,11 @@ import { TicketTypeRepository } from '../../repositories';
 
 type TicketTypeFormDialogProps = {
   open: boolean;
-  eventId: number;
-  ticketType?: TicketType;
+  eventId?: number;
+  ticketType?: TicketType | TicketTypeFormData;
   onClose: () => void;
   onSaved: () => void;
+  onSubmitLocal?: (data: TicketTypeFormData) => void;
 };
 
 export function TicketTypeFormDialog({
@@ -33,6 +34,7 @@ export function TicketTypeFormDialog({
   ticketType,
   onClose,
   onSaved,
+  onSubmitLocal,
 }: TicketTypeFormDialogProps) {
   const repository = new TicketTypeRepository();
   const [loading, setLoading] = useState<Loading>(false);
@@ -59,10 +61,18 @@ export function TicketTypeFormDialog({
   async function submit(data: TicketTypeFormData) {
     if (loading) return;
 
+    if (onSubmitLocal) {
+      onSubmitLocal(data);
+      toast.success(ticketType ? 'Tipo de ingresso atualizado!' : 'Tipo de ingresso adicionado!');
+      onSaved();
+      onClose();
+      return;
+    }
+
     try {
       setLoading(ticketType ? 'PUT' : 'POST');
 
-      if (ticketType) {
+      if (ticketType && 'id' in ticketType && ticketType.id) {
         await repository.update(ticketType.id, {
           name: data.name,
           description: data.description || undefined,
@@ -73,7 +83,7 @@ export function TicketTypeFormDialog({
         toast.success('Tipo de ingresso atualizado!');
       } else {
         await repository.create({
-          eventId,
+          eventId: eventId as number,
           name: data.name,
           description: data.description || undefined,
           price: data.price,
