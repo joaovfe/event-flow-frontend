@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 
 import { EPublicPath } from '@/core/router/domain/enums/public-path.enum';
+import { useAuth } from '@/modules/auth/hooks';
 import { ControlledText, LoadingButton } from '@/shared/components';
 import { callbackOnInvalidZod, formatCurrency, formatErrorForNotification } from '@/shared/utils';
 
@@ -25,6 +26,7 @@ import { useCart } from '../contexts';
 export function CheckoutPage() {
   const navigate = useNavigate();
   const { items, total, clear, applyValidatedCart } = useCart();
+  const { authenticated, user, loading: authLoading } = useAuth();
 
   const repository = new OrderRepository();
   const [loading, setLoading] = useState(false);
@@ -35,8 +37,20 @@ export function CheckoutPage() {
   });
 
   useEffect(() => {
-    if (items.length === 0) navigate(EPublicPath.CART);
-  }, [items.length]);
+    if (authLoading) return;
+
+    if (!authenticated || items.length === 0) navigate(EPublicPath.CART);
+  }, [items.length, authenticated, authLoading]);
+
+  useEffect(() => {
+    if (user) {
+      methods.reset((current) => ({
+        ...current,
+        customerName: user.name,
+        customerEmail: user.email,
+      }));
+    }
+  }, [user]);
 
   async function submit(data: CheckoutFormData) {
     if (loading || items.length === 0) return;

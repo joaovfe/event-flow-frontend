@@ -58,7 +58,7 @@ export class OrderRepository extends Repository {
   }
 
   public async checkout(dto: CheckoutDTO): Promise<Order> {
-    const { status, data } = await this.http.post<Order, CheckoutDTO>('/public/checkout', dto);
+    const { status, data } = await this.http.post<Order, CheckoutDTO>('/checkout', dto);
 
     if (this.isOK(status)) return new Order(data);
 

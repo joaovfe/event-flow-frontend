@@ -13,6 +13,7 @@ import {
 import { Add, DeleteOutline, Remove, ShoppingCartOutlined } from '@mui/icons-material';
 
 import { EPublicPath } from '@/core/router/domain/enums/public-path.enum';
+import { useAuthModal } from '@/modules/auth/contexts/auth-modal.context';
 import { formatCurrency } from '@/shared/utils';
 
 import { useCart } from '../contexts';
@@ -20,6 +21,7 @@ import { useCart } from '../contexts';
 export function CartPage() {
   const { items, total, removeItem, updateQuantity } = useCart();
   const navigate = useNavigate();
+  const { isAuth } = useAuthModal();
 
   if (items.length === 0) {
     return (
@@ -108,7 +110,7 @@ export function CartPage() {
           variant="contained"
           color="success"
           size="large"
-          onClick={() => navigate(EPublicPath.CHECKOUT)}
+          onClick={() => isAuth(() => navigate(EPublicPath.CHECKOUT))}
         >
           Ir para o checkout
         </Button>
